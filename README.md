@@ -48,7 +48,7 @@ POSTGRES_DB=nombre_bd_pg
 Puedes usar múltiples entornos:
 
 ```bash
-python3 scripts/run_ocrd.py --env .env.prod
+python scripts/run_ocrd.py --env .env.dev
 ```
 
 ## 📅 Agendar con CRON
