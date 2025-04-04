@@ -1,5 +1,4 @@
 import os
-import pyodbc
 from sqlalchemy import create_engine
 import urllib
 #from dotenv import load_dotenv
@@ -7,16 +6,6 @@ import urllib
 #load_dotenv()
 #def load_environment(env_file=".env"):
 #    load_dotenv(dotenv_path=env_file)
-
-def get_sqlserver_connection():
-    conn_str = (
-        f"DRIVER={{{os.getenv('MSSQL_DRIVER')}}};"
-        f"SERVER={os.getenv('MSSQL_HOST')};"
-        f"DATABASE={os.getenv('MSSQL_DATABASE')};"
-        f"UID={os.getenv('MSSQL_USER')};"
-        f"PWD={os.getenv('MSSQL_PASSWORD')};"
-    )
-    return pyodbc.connect(conn_str)
 
 def get_sqlserver_engine():
     encoded_password = urllib.parse.quote_plus(os.getenv('MSSQL_PASSWORD'))

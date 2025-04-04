@@ -1,4 +1,4 @@
-from repository.sqlserver_repository import get_data_with_query2
+from repository.sqlserver_repository import get_data_with_query
 from repository.postgres_repository import insert_into_postgres
 from services.transform_service import normalize_column_names
 
@@ -10,7 +10,7 @@ def run_ocrd_etl():
     """
     
     print("Extrayendo datos de OCRD...")
-    df = get_data_with_query2(query)
+    df = get_data_with_query(query)
     df = normalize_column_names(df)
     
     print("Cargando OCRD en PostgreSQL...")
