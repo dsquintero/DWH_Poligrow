@@ -1,5 +1,5 @@
 
-# DWH ETL Pipeline
+# DWH Poligrow
 
 Este proyecto implementa un conjunto de procesos ETL modulares para la extracción de datos desde SQL Server, su transformación y carga en PostgreSQL. Se ha estructurado de forma limpia usando buenas prácticas de separación por capas.
 
