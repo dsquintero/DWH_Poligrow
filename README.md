@@ -32,17 +32,20 @@ pip install -r requirements.txt
 Utiliza múltiples archivos `.env` para manejar entornos (dev, prod, test). Ejemplo de `.env`:
 
 ```env
-SQL_SERVER=sqlserver_host
-SQL_DATABASE=nombre_bd
-SQL_USER=usuario
-SQL_PASSWORD=clave
-SQL_DRIVER=ODBC Driver 17 for SQL Server
+# SQL Server
+MSSQL_DRIVER=ODBC Driver 17 for SQL Server
+MSSQL_USER=your_mssql_username
+MSSQL_PASSWORD=your_mssql_password
+MSSQL_HOST=your_mssql_host
+MSSQL_PORT=1433
+MSSQL_DATABASE=your_mssql_database
 
-POSTGRES_USER=usuario_pg
-POSTGRES_PASSWORD=clave_pg
-POSTGRES_HOST=host_pg
+# PostgreSQL
+POSTGRES_USER=your_pg_user
+POSTGRES_PASSWORD=your_pg_password
+POSTGRES_HOST=your_pg_host
 POSTGRES_PORT=5432
-POSTGRES_DB=nombre_bd_pg
+POSTGRES_DB=your_pg_database
 ```
 
 Puedes usar múltiples entornos:
@@ -65,6 +68,7 @@ python3 scripts/update_cron.py
 - OCRG (Grupos de Clientes)
 - OACT (Cuentas contables)
 - OOCR (Centros de costos)
+- OJDT (Asientos Contables)
 
 Cada uno tiene su script ejecutable en la carpeta `scripts/`.
 
