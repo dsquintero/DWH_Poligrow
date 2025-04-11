@@ -1,6 +1,6 @@
-from config.db_config import get_sqlserver_connection, get_postgres_engine
+
 from repository.sqlserver_repository import get_data_with_query
-from repository.postgres_repository import insert_into_postgres
+from repository.postgres_repository import execute_postgres_query, insert_into_postgres
 from services.transform_service import normalize_column_names
 
 def run_ocrg_etl():
@@ -10,15 +10,32 @@ def run_ocrg_etl():
         FROM OCRG
     """
     
-    conn_sql = get_sqlserver_connection()
-    engine_pg = get_postgres_engine()
-    
     print("Extrayendo datos de OCRG...")
-    df = get_data_with_query(conn_sql, query)
+    df = get_data_with_query(query)
     df = normalize_column_names(df)
     
-    print("Cargando OCRG en PostgreSQL...")
-    insert_into_postgres(df, engine_pg, "dim_ocrg")
-    
-    conn_sql.close()
-    print("ETL de OCRG completado.")
+    # Paso 1: Truncar staging
+    print("Truncando staging.dim_ocrg...")
+    execute_postgres_query("TRUNCATE TABLE staging.dim_ocrg;")
+
+    # Paso 2: Insertar en staging
+    print("Insertando en staging.dim_ocrg...")
+    insert_into_postgres(df, "dim_ocrg") 
+
+    # Paso 3: Truncar warehouse
+    print("Truncando warehouse.dim_ocrg...")
+    execute_postgres_query("TRUNCATE TABLE warehouse.dim_ocrg;")
+
+    # Paso 4: Insertar en warehouse desde staging
+    print("Insertando nuevos datos en warehouse.dim_ocrg...")
+    insert_query = """
+    INSERT INTO warehouse.dim_ocrg
+    SELECT * FROM staging.dim_ocrg;
+    """
+    execute_postgres_query(insert_query)
+
+    # Paso 5: Limpiar staging
+    print("Limpiando staging.dim_ocrg...")
+    execute_postgres_query("TRUNCATE TABLE staging.dim_ocrg;")
+
+    print("ETL de OCRG completado con limpieza y actualización de warehouse.")
